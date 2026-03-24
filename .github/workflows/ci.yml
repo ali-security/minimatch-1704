@@ -8,18 +8,18 @@ jobs:
       matrix:
         node-version: [14.17, 16.x, 18.x]
         platform:
-        - os: ubuntu-latest
+        - os: ubuntu-22.04
           shell: bash
-        - os: macos-latest
+        - os: macos-14
           shell: bash
-        - os: windows-latest
+        - os: windows-2022
           shell: bash
-        - os: windows-latest
+        - os: windows-2022
           shell: powershell
         exclude:
         - node-version: 14.17
           platform:
-            os: macos-latest
+            os: macos-14
             shell: bash
       fail-fast: false
 
@@ -29,21 +29,21 @@ jobs:
         shell: ${{ matrix.platform.shell }}
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v1.1.0
+    - name: Checkout Repository
+      uses: actions/checkout@v1.1.0
 
-      - name: Use Nodejs ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+    - name: Use Nodejs ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm install
 
-      - name: Run Tests
-        if: ${{ !startsWith(matrix.node-version, '18') }}
-        run: npm test -- -c -t0
+    - name: Run Tests
+      if: ${{ !startsWith(matrix.node-version, '18') }}
+      run: npm test -- -c -t0
 
-      - name: Run Tests (skip .ts on Node 18)
-        if: ${{ startsWith(matrix.node-version, '18') }}
-        run: npm test -- -c -t0 'test/*.js'
+    - name: Run Tests (skip .ts on Node 18)
+      if: ${{ startsWith(matrix.node-version, '18') }}
+      run: npm test -- -c -t0 'test/*.js'
