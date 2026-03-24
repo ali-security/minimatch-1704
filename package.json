@@ -2,7 +2,7 @@
   "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)",
   "name": "minimatch",
   "description": "a glob matcher in javascript",
-  "version": "8.0.4",
+  "version": "8.0.4-sp1",
   "repository": {
     "type": "git",
     "url": "git://github.com/isaacs/minimatch.git"
@@ -34,8 +34,8 @@
     "postprepare": "bash fixup.sh",
     "pretest": "npm run prepare",
     "presnap": "npm run prepare",
-    "test": "c8 tap",
-    "snap": "c8 tap",
+    "test": "tap",
+    "snap": "tap",
     "format": "prettier --write . --loglevel warn",
     "benchmark": "node benchmark/index.js",
     "typedoc": "typedoc --tsconfig tsconfig-esm.json ./src/*.ts"

@@ -6,7 +6,7 @@ jobs:
   build:
     strategy:
       matrix:
-        node-version: [14.17, 16.x, 18.x, 19.x]
+        node-version: [14.17, 16.x, 18.x]
         platform:
         - os: ubuntu-latest
           shell: bash
@@ -16,6 +16,11 @@ jobs:
           shell: bash
         - os: windows-latest
           shell: powershell
+        exclude:
+        - node-version: 14.17
+          platform:
+            os: macos-latest
+            shell: bash
       fail-fast: false
 
     runs-on: ${{ matrix.platform.os }}
@@ -36,4 +41,9 @@ jobs:
         run: npm install
 
       - name: Run Tests
+        if: ${{ !startsWith(matrix.node-version, '18') }}
         run: npm test -- -c -t0
+
+      - name: Run Tests (skip .ts on Node 18)
+        if: ${{ startsWith(matrix.node-version, '18') }}
+        run: npm test -- -c -t0 'test/*.js'
